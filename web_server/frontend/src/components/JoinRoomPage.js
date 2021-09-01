@@ -1,5 +1,5 @@
-import React, {Component } from "react";
-import {Button, Grid, Typography, TextField } from "@material-ui/core";
+import React, { Component } from "react";
+import { Button, Grid, Typography, TextField } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 export default class JoinRoomPage extends Component {
@@ -8,10 +8,9 @@ export default class JoinRoomPage extends Component {
         this.state = {
             roomCode: "",
             error: "",
-        }
+        };
         this._handleTextFieldChange = this._handleTextFieldChange.bind(this);
         this._roomButtonPressed = this._roomButtonPressed.bind(this);
-
     }
 
     render() {
@@ -27,21 +26,30 @@ export default class JoinRoomPage extends Component {
                         error={this.state.error}
                         label="Code"
                         placeholder="Enter a Room Code"
-                        value= {this.state.roomCode}
-                        helperText= {this.state.error}
+                        value={this.state.roomCode}
+                        helperText={this.state.error}
                         variant="outlined"
                         onChange={this._handleTextFieldChange}
                     />
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Button variant="contained" color="primary" onClick={this._roomButtonPressed}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this._roomButtonPressed}
+                    >
                         Enter Room
                     </Button>
                 </Grid>
 
                 <Grid item xs={12}>
-                    <Button variant="contained" color="secondary" to="/" component={Link}>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        to="/"
+                        component={Link}
+                    >
                         Back
                     </Button>
                 </Grid>
@@ -58,19 +66,21 @@ export default class JoinRoomPage extends Component {
     _roomButtonPressed() {
         const requestOptions = {
             method: "POST",
-            headers: {"Content-Type": 'application/json'},
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                code: this.state.roomCode
-            })
+                code: this.state.roomCode,
+            }),
         };
-        fetch('/api/join-room', requestOptions).then((response) => {
-            if (response.ok) {
-                this.props.history.push(`/room/${this.state.roomCode}`)
-            } else {
-                this.setState({error: "Room Not Found."});
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
+        fetch("/api/join-room", requestOptions)
+            .then((response) => {
+                if (response.ok) {
+                    this.props.history.push(`/room/${this.state.roomCode}`);
+                } else {
+                    this.setState({ error: "Room Not Found." });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 }
